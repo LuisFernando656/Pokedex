@@ -25,20 +25,23 @@ const renderPokemon = async pokemon => {
 
   const data = await fetchPokemon(pokemon)
 
-  if (data) {
+  if (data.id < 899) {
+    
     pokemonImage.style.display = 'block'
     pokemonName.innerHTML = data.name
     pokemonNumber.innerHTML = data.id
-    pokemonImage.src =
-      data['sprites']['versions']['generation-v']['black-white']['animated'][
-        'front_default']
+    if (data.id >0 && data.id <650){
+      pokemonImage.src = data['sprites']['versions']['generation-v']['black-white']['animated']['front_default']
+      }else{
+        pokemonImage.src = data['sprites']['versions']['generation-viii']['icons']['front_default']
+      }
     input.value = ''
     searchPokemon = data.id
-  } else {
+  } else {   
     pokemonImage.style.display = 'none'
     pokemonName.innerHTML = 'Not found :c'
     pokemonNumber.innerHTML = ''
-    
+    searchPokemon = 898
   }
 }
 
@@ -55,8 +58,11 @@ bprev.addEventListener('click', () => {
 })
 
 bnext.addEventListener('click', () => {
-  searchPokemon += 1
-  renderPokemon(searchPokemon)
+  if (searchPokemon < 898){
+    searchPokemon += 1
+    renderPokemon(searchPokemon)
+  }
+  
 })
 
 renderPokemon(searchPokemon)
